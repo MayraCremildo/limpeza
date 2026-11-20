@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sítio Limpo — Serviços de Limpeza Profissional</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              orange: '#C84328',
+              orangeHover: '#B0371E',
+              brown: '#332520',
+              dark: '#231D1B',
+              muted: '#6E6866',
+              lightBg: '#F9F9F9',
+              cardBorder: '#EFEFEF'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #231D1B;
+      background-color: #FFFFFF;
+      overflow-x: hidden;
+    }
+    .soft-card-shadow {
+      box-shadow: 0 14px 38px rgba(35, 29, 27, 0.06);
+    }
+    .floating-badge-shadow {
+      box-shadow: 0 12px 30px rgba(35, 29, 27, 0.12);
+    }
+    .hero-image-curve {
+      border-bottom-left-radius: 170px;
+    }
+    @media (max-width: 768px) {
+      .hero-image-curve {
+        border-bottom-left-radius: 90px;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-orange selection:text-white">
+
+  <!-- ==================== 1. HEADER & HERO SECTION ==================== -->
+  <section id="inicio" class="relative bg-[#FAFAFA] overflow-hidden">
+    <!-- Imagem direita ocupando exatamente a metade direita (colunas 7 a 12) desde o topo -->
+    <div class="hidden lg:block absolute top-0 right-0 w-[47.5%] h-[91%] z-0">
+      <div class="relative w-full h-full hero-image-curve overflow-hidden bg-[#D5D8DC]">
+        <img
+          src="https://images.pexels.com/photos/6196684/pexels-photo-6196684.jpeg"
+          onerror="this.onerror=null; this.src='https://placehold.co/900x950/332520/FFFFFF?text=Vila+Limpa';"
+          alt="Profissional de limpeza Vila Limpa"
+          class="w-full h-full object-cover object-center"
+        />
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#332520]/20 via-transparent to-transparent"></div>
+      </div>
+    </div>
+
+    <!-- Cabeçalho alinhado ao grid de 12 colunas (Menu entre o Logo e a Imagem, nem muito à esquerda nem à direita) -->
+    <header class="relative z-20 max-w-6xl mx-auto px-6 sm:px-10 pt-7 pb-4">
+      <div class="grid grid-cols-12 items-center">
+        <!-- Colunas 1-2: Logo -->
+        <div class="col-span-6 md:col-span-3 lg:col-span-2">
+          <a href="#inicio" class="inline-flex items-center gap-2 group">
+            <span class="w-7 h-7 rounded-lg bg-brand-orange flex items-center justify-center text-white shadow-sm">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6l2.1-2.1" />
+              </svg>
+            </span>
+            <span class="text-base font-extrabold tracking-tight text-brand-dark">
+              vila<span class="text-brand-orange">limpa</span>
+            </span>
+          </a>
+        </div>
+
+        <!-- Colunas 3-6: Menu perfeitamente posicionado entre o logo e a foto da direita -->
+        <nav class="hidden md:flex md:col-span-6 lg:col-span-4 justify-center items-center gap-6 lg:gap-7 text-[13px] font-medium text-brand-dark whitespace-nowrap">
+          <a href="#inicio" class="hover:text-brand-orange transition-colors" data-i18n="nav_home">Home</a>
+          <a href="#servicos" class="hover:text-brand-orange transition-colors" data-i18n="nav_services">Serviços</a>
+          <a href="#sobre" class="hover:text-brand-orange transition-colors" data-i18n="nav_about">Sobre Nós</a>
+          <a href="#precos" class="hover:text-brand-orange transition-colors" data-i18n="nav_pricing">Catálogo</a>
+        </nav>
+
+        <!-- Colunas 7-12: Seletor de Idioma no canto direito -->
+        <div class="col-span-6 md:col-span-3 lg:col-span-6 flex items-center justify-end gap-3">
+          <div class="inline-flex items-center bg-white/95 backdrop-blur-xs border border-[#E5DFD5] rounded-full p-1 shadow-sm" role="group" aria-label="Idioma">
+            <button type="button" id="lang-en" onclick="setLanguage('en')" class="text-[11px] font-semibold tracking-wider px-2.5 py-1 rounded-full text-brand-muted transition-colors">EN</button>
+            <button type="button" id="lang-pt" onclick="setLanguage('pt')" class="text-[11px] font-semibold tracking-wider px-2.5 py-1 rounded-full bg-brand-dark text-white transition-colors">PT</button>
+          </div>
+
+          <button type="button" id="mobileMenuBtn" class="md:hidden w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-brand-dark" aria-label="Menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Menu Mobile -->
+    <div id="mobileDrawer" class="hidden md:hidden relative z-30 mx-6 mb-4 p-4 rounded-2xl bg-white border border-gray-100 shadow-lg flex-col gap-3 text-sm font-medium">
+      <a href="#inicio" class="py-1 text-brand-dark hover:text-brand-orange" data-i18n="nav_home">Home</a>
+      <a href="#servicos" class="py-1 text-brand-dark hover:text-brand-orange" data-i18n="nav_services">Serviços</a>
+      <a href="#sobre" class="py-1 text-brand-dark hover:text-brand-orange" data-i18n="nav_about">Sobre Nós</a>
+      <a href="#precos" class="py-1 text-brand-dark hover:text-brand-orange" data-i18n="nav_pricing">Catálogo</a>
+    </div>
+
+    <!-- Conteúdo Principal do Hero -->
+    <div class="relative z-10 max-w-6xl mx-auto px-6 sm:px-10 pt-10 pb-20 lg:pt-16 lg:pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Coluna Esquerda (Texto) -->
+        <div class="lg:col-span-6">
+          <span class="block text-xs font-semibold tracking-wide text-brand-orange mb-3" data-i18n="hero_eyebrow">
+            Excelência em Limpeza, Incomparável
+          </span>
+          <h1 class="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-brand-dark leading-[1.15] tracking-tight mb-5" data-i18n="hero_title">
+            Um Ambiente impecável começa com a limpeza certa
+          </h1>
+          <p class="text-sm sm:text-[15px] text-brand-muted leading-relaxed mb-8 max-w-md" data-i18n="hero_subtitle">
+            Deixe a limpeza conosco e tenha mais tempo para o que realmente importa. Equipe treinada, produtos ecológicos e brilho garantido.
+          </p>
+
+          <!-- Botão Principal -->
+          <div class="mb-10">
+            <a href="#precos" class="inline-flex items-center gap-2.5 bg-brand-orange hover:bg-brand-orangeHover text-white text-[11px] font-semibold tracking-wider uppercase px-6 py-3.5 rounded-md shadow-md shadow-brand-orange/20 transition-all hover:-translate-y-0.5">
+              <span data-i18n="hero_cta">RESERVE AGORA</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7v9" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Ícones Sociais + Linha horizontal sutil -->
+          <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2.5">
+              <a href="#rodape" aria-label="Facebook" class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-brand-dark hover:border-brand-orange hover:text-brand-orange transition-colors">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+              </a>
+              <a href="#rodape" aria-label="Instagram" class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-brand-dark hover:border-brand-orange hover:text-brand-orange transition-colors">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </a>
+              <a href="#rodape" aria-label="Twitter" class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-brand-dark hover:border-brand-orange hover:text-brand-orange transition-colors">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+              </a>
+            </div>
+            <div class="w-16 h-[1px] bg-gray-300"></div>
+          </div>
+        </div>
+
+        <!-- Coluna Direita (Imagem Mobile + Badges Flutuantes iguais ao print) -->
+        <div class="lg:col-span-6 relative min-h-[340px] lg:min-h-[420px] flex items-center justify-center">
+          <!-- Imagem visível apenas em telas pequenas/médias -->
+          <div class="lg:hidden w-full h-[380px] hero-image-curve overflow-hidden shadow-lg">
+            <img
+              src="https://images.pexels.com/photos/6196684/pexels-photo-6196684.jpeg"
+              onerror="this.onerror=null; this.src='https://placehold.co/800x700/332520/FFFFFF?text=Vila+Limpa';"
+              alt="Profissional de limpeza"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <!-- Badge Flutuante 1: Escudo com Check -->
+          <div class="absolute top-6 left-4 sm:left-12 lg:left-8 bg-white rounded-2xl p-3.5 floating-badge-shadow border border-gray-100">
+            <div class="w-9 h-9 rounded-xl bg-brand-orange flex items-center justify-center text-white">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Badge Flutuante 2: Pro / Limpeza -->
+          <div class="absolute top-1/2 -translate-y-1/2 right-2 sm:right-6 lg:right-2 bg-white rounded-2xl px-4 py-3 floating-badge-shadow border border-gray-100 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-brand-orange flex items-center justify-center text-white shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </div>
+            <div>
+              <div class="text-xs font-extrabold text-brand-dark leading-tight">Pro</div>
+              <div class="text-[10px] text-brand-muted" data-i18n="badge_team">Limpeza</div>
+            </div>
+          </div>
+
+          <!-- Badge Flutuante 3: Melhor / Serviço de Limpeza -->
+          <div class="absolute -bottom-4 left-4 sm:left-16 lg:-left-12 bg-white rounded-2xl px-5 py-4 floating-badge-shadow border border-gray-100 flex items-center gap-3.5">
+            <div class="relative w-11 h-11 rounded-xl bg-brand-orange flex items-center justify-center text-white shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+              <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-brand-orange border-2 border-white"></span>
+            </div>
+            <div>
+              <div class="text-lg font-extrabold text-brand-dark leading-none" data-i18n="badge_best_title">Melhor</div>
+              <div class="text-[11px] text-brand-muted mt-1" data-i18n="badge_best_sub">Serviço de Limpeza</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 2. SERVIÇOS DE LIMPEZA ==================== -->
+  <section id="servicos" class="py-20 lg:py-24 bg-white">
+    <div class="max-w-5xl mx-auto px-6 sm:px-10">
+      <div class="text-center max-w-xl mx-auto mb-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-dark leading-snug" data-i18n="srv_heading">
+          Serviços de limpeza completos<br />e personalizados para você
+        </h2>
+      </div>
+
+      <!-- Bloco Superior: 3 Serviços em cartão branco unificado com sombra suave -->
+      <div class="bg-white rounded-2xl border border-gray-100 soft-card-shadow p-8 sm:p-10 mb-7">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+          <!-- Serviço 1 -->
+          <div class="flex flex-col items-center text-center pt-2 md:pt-0 md:px-4">
+            <div class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center mb-4 shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            </div>
+            <h3 class="text-sm font-bold text-brand-dark mb-2" data-i18n="srv_1_t">Serviço de Limpeza Residencial</h3>
+            <p class="text-xs text-brand-muted leading-relaxed" data-i18n="srv_1_d">
+              Mantenha sua casa sempre limpa, organizada e acolhedora com nossa limpeza detalhada de quartos, salas, cozinhas e banheiros.
+            </p>
+          </div>
+
+          <!-- Serviço 2 -->
+          <div class="flex flex-col items-center text-center pt-8 md:pt-0 md:px-4">
+            <div class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center mb-4 shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
+            <h3 class="text-sm font-bold text-brand-dark mb-2" data-i18n="srv_2_t">Serviço de Limpeza Comercial</h3>
+            <p class="text-xs text-brand-muted leading-relaxed" data-i18n="srv_2_d">
+              Ambientes corporativos e lojas higienizados para transmitir profissionalismo e bem-estar para clientes e colaboradores.
+            </p>
+          </div>
+
+          <!-- Serviço 3 -->
+          <div class="flex flex-col items-center text-center pt-8 md:pt-0 md:px-4">
+            <div class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center mb-4 shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </div>
+            <h3 class="text-sm font-bold text-brand-dark mb-2" data-i18n="srv_3_t">Serviço de Limpeza Profunda</h3>
+            <p class="text-xs text-brand-muted leading-relaxed" data-i18n="srv_3_d">
+              Remoção intensiva de sujeiras difíceis, higienização de estofados, azulejos e áreas de difícil acesso com máxima eficiência.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco Inferior: 2 Serviços centralizados -->
+      <div class="bg-white rounded-2xl border border-gray-100 soft-card-shadow p-8 sm:p-10 max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+          <!-- Serviço 4 -->
+          <div class="flex flex-col items-center text-center pt-2 md:pt-0 md:px-6">
+            <div class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center mb-4 shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-sm font-bold text-brand-dark mb-2" data-i18n="srv_4_t">Serviço de Limpeza Ecológica</h3>
+            <p class="text-xs text-brand-muted leading-relaxed" data-i18n="srv_4_d">
+              Produtos biodegradáveis e seguros para crianças, animais de estimação e pessoas com alergias, cuidando do seu lar e do planeta.
+            </p>
+          </div>
+
+          <!-- Serviço 5 -->
+          <div class="flex flex-col items-center text-center pt-8 md:pt-0 md:px-6">
+            <div class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center mb-4 shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+            </div>
+            <h3 class="text-sm font-bold text-brand-dark mb-2" data-i18n="srv_5_t">Serviço de Limpeza Especializada</h3>
+            <p class="text-xs text-brand-muted leading-relaxed" data-i18n="srv_5_d">
+              Soluções sob medida para pós-obra, pré-mudança, limpeza de vidros em altura e tratamento de pisos delicados.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3. FAIXA DE MÉTRICAS COM FUNDO FOTOGRÁFICO ==================== -->
+  <section class="relative py-16 bg-brand-dark overflow-hidden">
+    <img
+      src="https://images.pexels.com/photos/4239146/pexels-photo-4239146.jpeg?auto=compress&cs=tinysrgb&w=1400"
+      onerror="this.onerror=null; this.src='https://placehold.co/1400x400/231D1B/FFFFFF?text=Resultados';"
+      alt="Equipe em ação"
+      class="absolute inset-0 w-full h-full object-cover opacity-35"
+    />
+    <div class="absolute inset-0 bg-[#2A2625]/70"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6">
+      <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl py-8 px-6 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center text-white">
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold tracking-tight">9,168+</div>
+          <div class="text-xs text-gray-200 mt-1" data-i18n="stat_1">Clientes Satisfeitos</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold tracking-tight">4,573+</div>
+          <div class="text-xs text-gray-200 mt-1" data-i18n="stat_2">Projetos Concluídos</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold tracking-tight">500+</div>
+          <div class="text-xs text-gray-200 mt-1" data-i18n="stat_3">Profissionais Ativos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 4. POR QUE NOS ESCOLHER / SOBRE NÓS ==================== -->
+  <section id="sobre" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-6 sm:px-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <!-- Coluna Esquerda (Benefícios) -->
+        <div class="lg:col-span-5">
+          <span class="block text-[11px] font-bold tracking-[0.14em] uppercase text-brand-orange mb-2.5" data-i18n="why_eyebrow">
+            POR QUE NOS ESCOLHER?
+          </span>
+          <h2 class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-brand-dark leading-[1.2] mb-8" data-i18n="why_title">
+            Excelência que você vê, cuidado que você sente
+          </h2>
+
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3.5">
+              <span class="w-5 h-5 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </span>
+              <span class="text-xs sm:text-sm text-brand-muted leading-relaxed" data-i18n="why_1">
+                Equipe rigorosamente selecionada, treinada e segurada.
+              </span>
+            </li>
+            <li class="flex items-start gap-3.5">
+              <span class="w-5 h-5 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </span>
+              <span class="text-xs sm:text-sm text-brand-muted leading-relaxed" data-i18n="why_2">
+                Produtos certificados, hipoalergênicos e amigos do meio ambiente.
+              </span>
+            </li>
+            <li class="flex items-start gap-3.5">
+              <span class="w-5 h-5 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </span>
+              <span class="text-xs sm:text-sm text-brand-muted leading-relaxed" data-i18n="why_3">
+                Pontualidade rigorosa e agendamento flexível conforme a sua rotina.
+              </span>
+            </li>
+            <li class="flex items-start gap-3.5">
+              <span class="w-5 h-5 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </span>
+              <span class="text-xs sm:text-sm text-brand-muted leading-relaxed" data-i18n="why_4">
+                Garantia de 100% de satisfação em todos os atendimentos.
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Coluna Direita (Foto da equipe com moldura geométrica laranja atrás) -->
+        <div class="lg:col-span-7 relative flex justify-center lg:justify-end">
+          <div class="relative w-full max-w-[480px]">
+            <!-- Bloco Laranja Sólido deslocado no topo/direita -->
+            <div class="absolute -top-4 -right-4 w-[88%] h-[92%] bg-brand-orange rounded-2xl z-0"></div>
+            <!-- Foto da equipe -->
+            <div class="relative z-10 rounded-2xl overflow-hidden shadow-xl aspect-[4/3.6] bg-gray-200">
+              <img
+                src="https://images.pexels.com/photos/6195125/pexels-photo-6195125.jpeg?auto=compress&cs=tinysrgb&w=1000"
+                onerror="this.onerror=null; this.src='https://placehold.co/800x720/332520/FFFFFF?text=Nossa+Equipe';"
+                alt="Equipe Sítio Limpo com equipamentos"
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. NOSSA EQUIPE ==================== -->
+  <section class="py-20 bg-[#FAFAFA]">
+    <div class="max-w-5xl mx-auto px-6 sm:px-10">
+      <!-- Título com linhas laterais horizontais -->
+      <div class="flex items-center justify-center gap-6 mb-14">
+        <div class="h-[1px] bg-gray-300 w-20 sm:w-32"></div>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-brand-dark whitespace-nowrap" data-i18n="team_title">Nossa Equipe</h2>
+        <div class="h-[1px] bg-gray-300 w-20 sm:w-32"></div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-7">
+        <!-- Membro 1 -->
+        <article class="bg-white rounded-xl border border-gray-100 soft-card-shadow overflow-hidden group">
+          <div class="aspect-[4/4.3] overflow-hidden bg-gray-200">
+            <img
+              src="https://images.pexels.com/photos/6195130/pexels-photo-6195130.jpeg"
+              onerror="this.onerror=null; this.src='https://placehold.co/500x540/C84328/FFFFFF?text=Bianca';"
+              alt="Bianca Ryan"
+              class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <div class="p-5 flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-brand-dark">Bianca Ryan</h3>
+              <p class="text-[11px] text-brand-muted mt-0.5" data-i18n="team_role_1">Supervisora de Operações</p>
+            </div>
+            <span class="text-brand-orange group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+        </article>
+
+        <!-- Membro 2 -->
+        <article class="bg-white rounded-xl border border-gray-100 soft-card-shadow overflow-hidden group">
+          <div class="aspect-[4/4.3] overflow-hidden bg-gray-200">
+            <img
+              src="https://images.pexels.com/photos/6195110/pexels-photo-6195110.jpeg"
+              onerror="this.onerror=null; this.src='https://placehold.co/500x540/332520/FFFFFF?text=Joice';"
+              alt="Joice Mandy"
+              class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <div class="p-5 flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-brand-dark">Joice Mandy</h3>
+              <p class="text-[11px] text-brand-muted mt-0.5" data-i18n="team_role_2">Especialista Residencial</p>
+            </div>
+            <span class="text-brand-orange group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+        </article>
+
+        <!-- Membro 3 -->
+        <article class="bg-white rounded-xl border border-gray-100 soft-card-shadow overflow-hidden group">
+          <div class="aspect-[4/4.3] overflow-hidden bg-gray-200">
+            <img
+              src="https://images.pexels.com/photos/6196684/pexels-photo-6196684.jpeg"
+              onerror="this.onerror=null; this.src='https://placehold.co/500x540/231D1B/FFFFFF?text=Billy';"
+              alt="Billy Winstone"
+              class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <div class="p-5 flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-brand-dark">Billy Winstone</h3>
+              <p class="text-[11px] text-brand-muted mt-0.5" data-i18n="team_role_3">Líder de Limpeza Técnica</p>
+            </div>
+            <span class="text-brand-orange group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 6. PREÇOS TRANSPARENTES (FUNDO MARROM ESCURO) ==================== -->
+  <section id="precos" class="py-20 lg:py-24 bg-brand-brown text-white">
+    <div class="max-w-5xl mx-auto px-6 sm:px-10">
+      <div class="text-center max-w-lg mx-auto mb-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold leading-snug" data-i18n="price_heading">
+          Preços transparentes e<br />flexíveis para o seu orçamento
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7 items-stretch">
+        <!-- Plano 1: Padrão -->
+        <div class="bg-white text-brand-dark rounded-xl p-8 flex flex-col justify-between shadow-xl">
+          <div>
+            <div class="text-center border-b border-gray-100 pb-6 mb-6">
+              <h3 class="text-sm font-bold text-brand-dark mb-3" data-i18n="plan_1_name">Padrão</h3>
+              <div class="flex items-baseline justify-center gap-0.5">
+                <span class="text-xs font-bold text-brand-muted">R$</span>
+                <span class="text-4xl font-extrabold tracking-tight text-brand-dark">10</span>
+                <span class="text-xs text-brand-muted" data-i18n="per_hour">/h</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3.5 text-xs text-brand-muted mb-8">
+              <li class="flex items-start gap-2.5">
+                <span class="w-4 h-4 rounded-full bg-brand-dark text-white flex items-center justify-center shrink-0 mt-0.5 text-[9px]">✓</span>
+                <span data-i18n="plan_1_f1">Limpeza geral de manutenção de ambientes internos.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-4 h-4 rounded-full bg-brand-dark text-white flex items-center justify-center shrink-0 mt-0.5 text-[9px]">✓</span>
+                <span data-i18n="plan_1_f2">Aspiração, higienização de pisos e remoção de poeira.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-4 h-4 rounded-full bg-brand-dark text-white flex items-center justify-center shrink-0 mt-0.5 text-[9px]">✓</span>
+                <span data-i18n="plan_1_f3">Ideal para apartamentos e escritórios compactos.</span>
+              </li>
+            </ul>
+          </div>
+
+          <button type="button" onclick="openBookingModal('Padrão')" class="w-full py-3 rounded-md bg-gray-100 hover:bg-gray-200 text-brand-dark text-[11px] font-bold uppercase tracking-wider transition-colors" data-i18n="plan_btn">
+            ESCOLHER PLANO
+          </button>
+        </div>
+
+        <!-- Plano 2: Premium (Destaque Laranja) -->
+        <div class="bg-white text-brand-dark rounded-xl p-8 flex flex-col justify-between shadow-2xl ring-2 ring-brand-orange/40">
+          <div>
+            <div class="text-center border-b border-gray-100 pb-6 mb-6">
+              <h3 class="text-sm font-bold text-brand-dark mb-3" data-i18n="plan_2_name">Premium</h3>
+              <div class="flex items-baseline justify-center gap-0.5">
+                <span class="text-xs font-bold text-brand-orange">R$</span>
+                <span class="text-4xl font-extrabold tracking-tight text-brand-orange">25</span>
+                <span class="text-xs text-brand-muted" data-i18n="per_hour">/h</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3.5 text-xs text-brand-muted mb-8">
+              <li class="flex items-start gap-2.5">
+                <span class="w-4 h-4 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 mt-0.5 text-[9px]">✓</span>
+                <span data-i18n="plan_2_f1">Limpeza profunda completa com produtos ecológicos inclusos.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-4 h-4 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 mt-0.5 text-[9px]">✓</span>
+                <span data-i18n="plan_2_f2">Higienização detalhada de cozinha, banheiros, vidros e armários.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-4 h-4 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 mt-0.5 text-[9px]">✓</span>
+                <span data-i18n="plan_2_f3">Atendimento prioritário com dupla de profissionais certificados.</span>
+              </li>
+            </ul>
+          </div>
+
+          <button type="button" onclick="openBookingModal('Premium')" class="w-full py-3 rounded-md bg-brand-orange hover:bg-brand-orangeHover text-white text-[11px] font-bold uppercase tracking-wider shadow-md shadow-brand-orange/25 transition-colors" data-i18n="plan_btn">
+            ESCOLHER PLANO
+          </button>
+        </div>
+
+        <!-- Plano 3: Personalizado -->
+        <div class="bg-white text-brand-dark rounded-xl p-8 flex flex-col justify-between shadow-xl">
+          <div>
+            <div class="text-center border-b border-gray-100 pb-6 mb-6">
+              <h3 class="text-sm font-bold text-brand-dark mb-3" data-i18n="plan_3_name">Personalizado</h3>
+              <div class="flex items-baseline justify-center gap-0.5">
+                <span class="text-xs font-bold text-brand-muted">R$</span>
+                <span class="text-4xl font-extrabold tracking-tight text-brand-dark">$$</span>
+                <span class="text-xs text-brand-muted" data-i18n="per_project">/mês</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3.5 text-xs text-brand-muted mb-8">
+              <li class="flex items-start gap-2.5">
+                <span class="w-4 h-4 rounded-full bg-brand-dark text-white flex items-center justify-center shrink-0 mt-0.5 text-[9px]">✓</span>
+                <span data-i18n="plan_3_f1">Cronograma sob medida para empresas, clínicas e condomínios.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-4 h-4 rounded-full bg-brand-dark text-white flex items-center justify-center shrink-0 mt-0.5 text-[9px]">✓</span>
+                <span data-i18n="plan_3_f2">Limpeza pós-obra, eventos corporativos e manutenção contínua.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-4 h-4 rounded-full bg-brand-dark text-white flex items-center justify-center shrink-0 mt-0.5 text-[9px]">✓</span>
+                <span data-i18n="plan_3_f3">Gestor dedicado e relatório digital de cada visita realizada.</span>
+              </li>
+            </ul>
+          </div>
+
+          <button type="button" onclick="openBookingModal('Personalizado')" class="w-full py-3 rounded-md bg-gray-100 hover:bg-gray-200 text-brand-dark text-[11px] font-bold uppercase tracking-wider transition-colors" data-i18n="plan_btn">
+            ESCOLHER PLANO
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Faixa branca separadora entre Preços e Newsletter -->
+  <div class="h-4 sm:h-5 bg-white w-full" aria-hidden="true"></div>
+
+  <!-- ==================== 7. NEWSLETTER BANNER LARANJA SOBRE FUNDO CASTANHO ==================== -->
+  <section class="py-14 bg-brand-brown">
+    <div class="max-w-4xl mx-auto px-6 sm:px-10">
+      <div class="bg-brand-orange rounded-2xl px-6 py-12 sm:px-14 text-center text-white shadow-xl">
+        <h2 class="text-xl sm:text-2xl font-bold max-w-lg mx-auto leading-snug mb-6" data-i18n="news_title">
+          Fique por dentro! Assine nossa newsletter para receber ofertas exclusivas e dicas de limpeza.
+        </h2>
+
+        <form onsubmit="handleNewsletterSubmit(event)" class="max-w-md mx-auto flex flex-col sm:flex-row bg-white p-1.5 rounded-lg shadow-md gap-2">
+          <input
+            type="email"
+            required
+            id="newsEmailInput"
+            placeholder="Digite seu melhor e-mail"
+            data-i18n-placeholder="news_placeholder"
+            class="flex-1 px-4 py-2.5 text-xs sm:text-sm text-brand-dark placeholder-gray-400 bg-transparent focus:outline-none"
+          />
+          <button type="submit" class="bg-brand-dark hover:bg-black text-white text-xs font-semibold px-6 py-2.5 rounded-md transition-colors shrink-0" data-i18n="news_btn">
+            Inscrever
+          </button>
+        </form>
+        <p id="newsFeedback" class="hidden text-xs text-white/95 font-medium mt-3" data-i18n="news_success">
+          Inscrição confirmada! Você receberá nossas dicas e ofertas em breve.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 8. RODAPÉ ==================== -->
+  <footer id="rodape" class="bg-white border-t border-gray-100 pt-14 pb-8 text-xs text-brand-muted">
+    <div class="max-w-6xl mx-auto px-6 sm:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-gray-100">
+        <!-- Coluna 1: Marca e Contatos -->
+        <div class="md:col-span-5">
+          <a href="#inicio" class="inline-flex items-center gap-2 mb-4">
+            <span class="w-7 h-7 rounded-lg bg-brand-orange flex items-center justify-center text-white">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6l2.1-2.1" />
+              </svg>
+            </span>
+            <span class="text-base font-extrabold text-brand-dark">
+              sítio<span class="text-brand-orange">limpo</span>
+            </span>
+          </a>
+
+          <p class="leading-relaxed max-w-xs mb-6" data-i18n="foot_desc">
+            Transformando casas e escritórios em espaços impecáveis, saudáveis e acolhedores com atendimento de excelência.
+          </p>
+
+          <div class="text-[11px] font-bold uppercase tracking-wider text-brand-dark mb-2" data-i18n="foot_contact_title">
+            ENTRE EM CONTATO
+          </div>
+          <div class="grid grid-cols-3 gap-3 text-[11px]">
+            <div>
+              <div class="font-semibold text-brand-dark">São Paulo</div>
+              <div>(11) 99876-5432</div>
+            </div>
+            <div>
+              <div class="font-semibold text-brand-dark">Rio de Janeiro</div>
+              <div>(21) 98765-4321</div>
+            </div>
+            <div>
+              <div class="font-semibold text-brand-dark">E-mail</div>
+              <div>contato@sitiolimpo.com</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna 2: Navegação -->
+        <div class="md:col-span-4">
+          <h4 class="font-bold text-brand-dark mb-4" data-i18n="foot_nav_title">Navegação</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#inicio" class="hover:text-brand-orange transition-colors" data-i18n="nav_home">Início</a></li>
+            <li><a href="#servicos" class="hover:text-brand-orange transition-colors" data-i18n="nav_services">Serviços</a></li>
+            <li><a href="#sobre" class="hover:text-brand-orange transition-colors" data-i18n="nav_about">Sobre Nós</a></li>
+            <li><a href="#precos" class="hover:text-brand-orange transition-colors" data-i18n="nav_pricing">Preços</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Redes Sociais -->
+        <div class="md:col-span-3">
+          <h4 class="font-bold text-brand-dark mb-4" data-i18n="foot_social_title">Siga-nos</h4>
+          <div class="flex items-center gap-2.5">
+            <a href="#inicio" aria-label="Facebook" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-brand-dark hover:border-brand-orange hover:text-brand-orange transition-colors">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+            </a>
+            <a href="#inicio" aria-label="YouTube" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-brand-dark hover:border-brand-orange hover:text-brand-orange transition-colors">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="#inicio" aria-label="Instagram" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-brand-dark hover:border-brand-orange hover:text-brand-orange transition-colors">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra Inferior de Copyright -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+        <p data-i18n="foot_copy">© 2026 Sítio Limpo. Todos os direitos reservados.</p>
+        <div class="flex items-center gap-6">
+          <a href="#rodape" class="hover:text-brand-dark" data-i18n="foot_terms">Termos de Uso</a>
+          <a href="#rodape" class="hover:text-brand-dark" data-i18n="foot_privacy">Política de Privacidade</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL INTERATIVO DE AGENDAMENTO DE PLANO ==================== -->
+  <div id="bookingModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-7 shadow-2xl relative">
+      <button type="button" onclick="closeBookingModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-brand-dark text-sm">✕</button>
+      <span class="text-[11px] font-bold uppercase tracking-widest text-brand-orange" data-i18n="modal_eyebrow">AGENDAMENTO RÁPIDO</span>
+      <h3 id="modalPlanTitle" class="text-xl font-extrabold text-brand-dark mt-1 mb-2">Plano Premium</h3>
+      <p class="text-xs text-brand-muted mb-5" data-i18n="modal_desc">Preencha seus dados e nossa equipe entrará em contato em até 15 minutos.</p>
+
+      <form onsubmit="handleBookingSubmit(event)" class="space-y-3.5">
+        <input type="text" required placeholder="Seu nome" data-i18n-placeholder="modal_name" class="w-full px-4 py-2.5 text-xs rounded-lg border border-gray-200 focus:border-brand-orange focus:outline-none" />
+        <input type="tel" required placeholder="Telefone / WhatsApp" data-i18n-placeholder="modal_phone" class="w-full px-4 py-2.5 text-xs rounded-lg border border-gray-200 focus:border-brand-orange focus:outline-none" />
+        <button type="submit" class="w-full py-3 rounded-lg bg-brand-orange hover:bg-brand-orangeHover text-white text-xs font-bold uppercase tracking-wider transition-colors" data-i18n="modal_submit">
+          CONFIRMAR SOLICITAÇÃO
+        </button>
+      </form>
+      <p id="bookingFeedback" class="hidden text-xs text-green-700 font-semibold mt-3 text-center" data-i18n="modal_success">
+        Solicitação enviada com sucesso! Em breve falaremos com você.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      pt: {
+        nav_home: "Home",
+        nav_services: "Serviços",
+        nav_about: "Sobre Nós",
+        nav_pricing: "Catálogo",
+        hero_eyebrow: "Excelência em Limpeza, Incomparável",
+        hero_title: "Um Ambiente impecável começa com a limpeza certa",
+        hero_subtitle: "Deixe a limpeza conosco e tenha mais tempo para o que realmente importa. Equipe treinada, produtos ecológicos e brilho garantido.",
+        hero_cta: "RESERVE AGORA",
+        badge_team: "Limpeza",
+        badge_best_title: "Melhor",
+        badge_best_sub: "Serviço de Limpeza",
+        srv_heading: "Serviços de limpeza completos e personalizados para você",
+        srv_1_t: "Serviço de Limpeza Residencial",
+        srv_1_d: "Mantenha sua casa sempre limpa, organizada e acolhedora com nossa limpeza detalhada de quartos, salas, cozinhas e banheiros.",
+        srv_2_t: "Serviço de Limpeza Comercial",
+        srv_2_d: "Ambientes corporativos e lojas higienizados para transmitir profissionalismo e bem-estar para clientes e colaboradores.",
+        srv_3_t: "Serviço de Limpeza Profunda",
+        srv_3_d: "Remoção intensiva de sujeiras difíceis, higienização de estofados, azulejos e áreas de difícil acesso com máxima eficiência.",
+        srv_4_t: "Serviço de Limpeza Ecológica",
+        srv_4_d: "Produtos biodegradáveis e seguros para crianças, animais de estimação e pessoas com alergias, cuidando do seu lar e do planeta.",
+        srv_5_t: "Serviço de Limpeza Especializada",
+        srv_5_d: "Soluções sob medida para pós-obra, pré-mudança, limpeza de vidros em altura e tratamento de pisos delicados.",
+        stat_1: "Clientes Satisfeitos",
+        stat_2: "Projetos Concluídos",
+        stat_3: "Profissionais Ativos",
+        why_eyebrow: "POR QUE NOS ESCOLHER?",
+        why_title: "Excelência que você vê, cuidado que você sente",
+        why_1: "Equipe rigorosamente selecionada, treinada e segurada.",
+        why_2: "Produtos certificados, hipoalergênicos e amigos do meio ambiente.",
+        why_3: "Pontualidade rigorosa e agendamento flexível conforme a sua rotina.",
+        why_4: "Garantia de 100% de satisfação em todos os atendimentos.",
+        team_title: "Nossa Equipe",
+        team_role_1: "Supervisora de Operações",
+        team_role_2: "Especialista Residencial",
+        team_role_3: "Líder de Limpeza Técnica",
+        price_heading: "Preços transparentes e flexíveis para o seu orçamento",
+        plan_1_name: "Padrão",
+        plan_2_name: "Premium",
+        plan_3_name: "Personalizado",
+        per_hour: "/h",
+        per_project: "/mês",
+        plan_1_f1: "Limpeza geral de manutenção de ambientes internos.",
+        plan_1_f2: "Aspiração, higienização de pisos e remoção de poeira.",
+        plan_1_f3: "Ideal para apartamentos e escritórios compactos.",
+        plan_2_f1: "Limpeza profunda completa com produtos ecológicos inclusos.",
+        plan_2_f2: "Higienização detalhada de cozinha, banheiros, vidros e armários.",
+        plan_2_f3: "Atendimento prioritário com dupla de profissionais certificados.",
+        plan_3_f1: "Cronograma sob medida para empresas, clínicas e condomínios.",
+        plan_3_f2: "Limpeza pós-obra, eventos corporativos e manutenção contínua.",
+        plan_3_f3: "Gestor dedicado e relatório digital de cada visita realizada.",
+        plan_btn: "ESCOLHER PLANO",
+        news_title: "Fique por dentro! Assine nossa newsletter para receber ofertas exclusivas e dicas de limpeza.",
+        news_placeholder: "Digite seu melhor e-mail",
+        news_btn: "Inscrever",
+        news_success: "Inscrição confirmada! Você receberá nossas dicas e ofertas em breve.",
+        foot_desc: "Transformando casas e escritórios em espaços impecáveis, saudáveis e acolhedores com atendimento de excelência.",
+        foot_contact_title: "ENTRE EM CONTATO",
+        foot_nav_title: "Navegação",
+        foot_social_title: "Siga-nos",
+        foot_copy: "© 2026 Sítio Limpo. Todos os direitos reservados.",
+        foot_terms: "Termos de Uso",
+        foot_privacy: "Política de Privacidade",
+        modal_eyebrow: "AGENDAMENTO RÁPIDO",
+        modal_desc: "Preencha seus dados e nossa equipe entrará em contato em até 15 minutos.",
+        modal_name: "Seu nome",
+        modal_phone: "Telefone / WhatsApp",
+        modal_submit: "CONFIRMAR SOLICITAÇÃO",
+        modal_success: "Solicitação enviada com sucesso! Em breve falaremos com você."
+      },
+      en: {
+        nav_home: "Home",
+        nav_services: "Services",
+        nav_about: "About Us",
+        nav_pricing: "Catalog",
+        hero_eyebrow: "Unmatched Cleaning Excellence",
+        hero_title: "A spotless environment starts with the right cleaning",
+        hero_subtitle: "Leave the cleaning to us and gain more time for what truly matters. Trained staff, eco-friendly products, and guaranteed shine.",
+        hero_cta: "BOOK NOW",
+        badge_team: "Cleaning",
+        badge_best_title: "Best",
+        badge_best_sub: "Cleaning Service",
+        srv_heading: "Complete and customized cleaning services for you",
+        srv_1_t: "Residential Cleaning Service",
+        srv_1_d: "Keep your home spotless, organized, and welcoming with our detailed cleaning of bedrooms, living rooms, kitchens, and bathrooms.",
+        srv_2_t: "Commercial Cleaning Service",
+        srv_2_d: "Sanitized corporate spaces and retail stores to project professionalism and well-being for clients and staff.",
+        srv_3_t: "Deep Cleaning Service",
+        srv_3_d: "Intensive removal of stubborn dirt, upholstery sanitization, tiles, and hard-to-reach areas with maximum efficiency.",
+        srv_4_t: "Eco-Friendly Cleaning Service",
+        srv_4_d: "Biodegradable products safe for children, pets, and allergy sufferers, caring for your home and the planet.",
+        srv_5_t: "Specialized Cleaning Service",
+        srv_5_d: "Tailored solutions for post-construction, move-in/move-out, high window cleaning, and delicate floor care.",
+        stat_1: "Happy Clients",
+        stat_2: "Completed Projects",
+        stat_3: "Active Professionals",
+        why_eyebrow: "WHY CHOOSE US?",
+        why_title: "Excellence you can see, care you can feel",
+        why_1: "Rigorously vetted, trained, and insured professionals.",
+        why_2: "Certified, hypoallergenic, and eco-friendly cleaning products.",
+        why_3: "Strict punctuality and flexible scheduling tailored to your routine.",
+        why_4: "100% satisfaction guarantee on every single visit.",
+        team_title: "Our Team",
+        team_role_1: "Operations Supervisor",
+        team_role_2: "Residential Specialist",
+        team_role_3: "Technical Cleaning Lead",
+        price_heading: "Transparent and flexible pricing for your budget",
+        plan_1_name: "Standard",
+        plan_2_name: "Premium",
+        plan_3_name: "Custom",
+        per_hour: "/hr",
+        per_project: "/mo",
+        plan_1_f1: "General maintenance cleaning for indoor living spaces.",
+        plan_1_f2: "Vacuuming, floor sanitization, and thorough dusting.",
+        plan_1_f3: "Ideal for apartments and compact offices.",
+        plan_2_f1: "Complete deep cleaning with eco-friendly supplies included.",
+        plan_2_f2: "Detailed sanitization of kitchen, bathrooms, glass, and cabinets.",
+        plan_2_f3: "Priority scheduling with a certified two-person team.",
+        plan_3_f1: "Tailored schedule for companies, clinics, and condominiums.",
+        plan_3_f2: "Post-construction cleanup, corporate events, and ongoing care.",
+        plan_3_f3: "Dedicated manager and digital report after every visit.",
+        plan_btn: "CHOOSE PLAN",
+        news_title: "Stay in the loop! Subscribe to our newsletter for exclusive offers and cleaning tips.",
+        news_placeholder: "Enter your best email",
+        news_btn: "Subscribe",
+        news_success: "Subscription confirmed! You will receive our tips and offers soon.",
+        foot_desc: "Transforming homes and offices into spotless, healthy, and welcoming spaces with top-tier service.",
+        foot_contact_title: "GET IN TOUCH",
+        foot_nav_title: "Navigation",
+        foot_social_title: "Follow Us",
+        foot_copy: "© 2026 Sítio Limpo. All rights reserved.",
+        foot_terms: "Terms of Use",
+        foot_privacy: "Privacy Policy",
+        modal_eyebrow: "QUICK BOOKING",
+        modal_desc: "Fill in your details and our team will reach out within 15 minutes.",
+        modal_name: "Your name",
+        modal_phone: "Phone / WhatsApp",
+        modal_submit: "CONFIRM REQUEST",
+        modal_success: "Request sent successfully! We will contact you shortly."
+      }
+    };
+
+    let currentLang = 'pt';
+
+    function setLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      document.documentElement.lang = lang;
+
+      const btnPt = document.getElementById('lang-pt');
+      const btnEn = document.getElementById('lang-en');
+
+      if (lang === 'pt') {
+        btnPt.classList.add('bg-brand-dark', 'text-white');
+        btnPt.classList.remove('text-brand-muted');
+        btnEn.classList.remove('bg-brand-dark', 'text-white');
+        btnEn.classList.add('text-brand-muted');
+      } else {
+        btnEn.classList.add('bg-brand-dark', 'text-white');
+        btnEn.classList.remove('text-brand-muted');
+        btnPt.classList.remove('bg-brand-dark', 'text-white');
+        btnPt.classList.add('text-brand-muted');
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key] !== undefined) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[lang][key] !== undefined) {
+          el.setAttribute('placeholder', translations[lang][key]);
+        }
+      });
+    }
+
+    // Menu mobile
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    mobileBtn.addEventListener('click', () => {
+      mobileDrawer.classList.toggle('hidden');
+      mobileDrawer.classList.toggle('flex');
+    });
+    mobileDrawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.add('hidden');
+        mobileDrawer.classList.remove('flex');
+      });
+    });
+
+    // Newsletter
+    function handleNewsletterSubmit(e) {
+      e.preventDefault();
+      document.getElementById('newsFeedback').classList.remove('hidden');
+      e.target.reset();
+    }
+
+    // Modal de agendamento dos planos
+    function openBookingModal(planName) {
+      const modal = document.getElementById('bookingModal');
+      const titleEl = document.getElementById('modalPlanTitle');
+      titleEl.textContent = (currentLang === 'pt' ? 'Plano ' : 'Plan: ') + planName;
+      document.getElementById('bookingFeedback').classList.add('hidden');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById('bookingModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      document.getElementById('bookingFeedback').classList.remove('hidden');
+      e.target.reset();
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target.id === 'bookingModal') closeBookingModal();
+    });
+  </script>
+</body>
+</html>
